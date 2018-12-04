@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(
+            function () {
+                $("button").click(
+                    
+                    function () {
+
+                        $.ajax({
+                            url: "demo_text.txt",
+                            success: function (result) {
+                                $('#div1').html(result);
+                            },
+                            beforeSend: function () {
+                                console.log("say hello");
+
+                            }
+                        })
+                    }
+                )
+            }
+        )
+    </script>
+</head>
+<body>
+<div id="div1"><h1>let ajax send this request</h1></div>
+<button>get external content</button>
+</body>

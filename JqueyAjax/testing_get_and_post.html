@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(
+            function () {
+                $("button").click(
+
+                    function () {
+
+                        $.get(
+                             "https://http-hunt.thoughtworks-labs.net/challenge",
+
+                                 {
+                                    'userId': 'Jz5uXVHLH',
+                                    "Content-Type": "application/json"
+                                }
+                            ,
+                            function (data,status,xhr) {
+                                console.log(data);
+
+                            }
+
+                        )
+                    }
+                )
+            }
+        )
+    </script>
+</head>
+<body>
+<div id="div1"><h1>let ajax send this request</h1></div>
+<button>get external content</button>
+</body>

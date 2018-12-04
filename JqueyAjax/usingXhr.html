@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function loadDoc() {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let info = JSON.parse(this.responseText)
+                    let input = info
+                    let i = 5
+                    let category= [];
+                    let category1 = {};
+                    let total = 0;
+                    console.log(info);
+                    input.forEach(
+                        function (element, index) {
+                            let para = document.createElement("P");
+                            let pricePara = document.createElement("P");
+                            if (!category.includes(element.category)) {
+                                category.push(element.category)
+                            }
+                            let t = document.createTextNode(element.name+ " category: "+ element.category);
+                            let price = document.createTextNode("price "+element.price +" start date: "+ element.startDate+ " end Date: "+element.endDate);
+
+                            let startDate = new Date(element.startDate);
+                            let endDate;
+                            let today = new Date(2018, 11, 2)
+                            if(!element.endDate) {
+                                 endDate = new Date(2018, 11, 2);
+
+                            } else {
+                                endDate = new Date(element.endDate)
+                            }
+
+                            if(startDate<= today && endDate >= today ) {
+
+                                if(category1[element.category] === undefined){
+                                    category1[element.category] = 1;
+                                } else {
+                                    category1[element.category] = category1[element.category] + 1;
+                                }
+
+                            }
+                            // Create a text node
+                            para.appendChild(t)
+                            pricePara.appendChild(price)
+                            document.body.appendChild(para);
+                            document.body.appendChild(pricePara);
+                        }
+                    )
+                    let xhttp2 = new XMLHttpRequest();
+                    let param =  JSON.stringify(category1);
+                    xhttp2.open("POST", "https://http-hunt.thoughtworks-labs.net/challenge/output", true);
+                    xhttp2.setRequestHeader("Content-type", "application/json");
+                    xhttp2.setRequestHeader("userId", "Jz5uXVHLH");
+                    xhttp2.send(param);
+                    let output = info.sampleOutput.output;
+                    category.forEach(
+                        function (element, index) {
+                            if(output[element] !== undefined) {
+                                let para = document.createElement("P");
+
+                                let t = document.createTextNode(" category: "+ element+ " no of active items: "+ output[element]);
+                                para.appendChild(t)
+                                document.body.appendChild(para);
+                            }
+                        }
+                    )
+                    document.getElementById("demo1").innerHTML = info.stage;
+                    document.getElementById("demo2").innerHTML = info.statement;
+                    document.getElementById("demo3").innerHTML = info.instructions;
+                    document.getElementById("demo4").innerHTML = info.sampleInput.input;
+                    document.getElementById("demo5").innerHTML = info.sampleOutput;
+                }
+
+
+            };
+            xhttp.open("GET", "https://http-hunt.thoughtworks-labs.net/challenge/input", true);
+//            xhttp.open("GET", "https://http-hunt.thoughtworks-labs.net/challenge/input", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.setRequestHeader("userId", "Jz5uXVHLH");
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+<p id="demo1"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+<p id="demo4"></p>
+<p id="demo5"></p>
+<button onclick="loadDoc()">get external content</button>
+</body>
